@@ -1,0 +1,305 @@
+/* ####################### Common stuff #######################*/
+
+
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Open Sans",Helvetica,Arial,sans-serif;
+}
+
+h2, h3 {
+	text-transform: uppercase;
+	color: #1C88C5;
+	font-weight: bold;
+}
+
+h3 {
+	font-size: 18px;
+}
+
+h2 { 
+	font-size: 22px;
+}
+
+/* ####################### Header #######################*/
+
+div.header {
+	background: #1C1D22 url(../images/header_bgnd.jpg) no-repeat center center;
+	color: #FFFFFF;
+	text-align: center;
+}
+
+#subheader {
+	padding: 20px 0;
+}
+
+.loader-image {
+	width: 30px;
+	height: 30px;
+}
+
+#event-info {
+	font-family: "Open Sans",Helvetica,Arial,sans-serif;
+	font-weight:bold;
+}
+
+#event-info h1 {
+	font-size: 20px;
+	font-weight:bold;
+	background-color: rgba(47, 69, 123, 0.8);
+	margin: 20px 0 0 0;
+	padding: 10px;
+}
+
+#event-info .event-dates {
+	font-size: 14px;
+	font-weight:bold;
+	background-color: rgba(28, 136, 197, 0.8);
+	margin: 0 0 20px 0;
+	padding: 10px;
+}
+
+.logo-placeholder {
+	opacity: 0.5;
+	margin-top: 20px;
+}
+
+/* ####################### Navigation #######################*/
+div.navbar-wrap {
+	background-color:#2f457b; 
+}
+
+div.navbar-wrap .navbar {
+	margin: 0;
+	background-color:#2f457b; 
+	border: none;
+	border-radius: 0;
+	font-family: "Open Sans",Helvetica,Arial,sans-serif;
+}
+
+.navbar-default .navbar-brand {
+	color: #FFFFFF;
+	height: 60px;
+    line-height: 30px;
+}
+
+.navbar-nav > li {
+    padding: 10px;
+}
+
+.navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
+    color: #FFFFFF;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #FFFFFF;
+	text-transform: uppercase;
+	padding: 10px;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+}
+
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+    color: #FFFFFF;
+}
+
+.navbar-default .navbar-toggle {
+border-radius: 0;
+border: none;
+background-color: #1C88C5;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+background-color: #FFFFFF;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+background-color: #1C88C5;
+}
+
+.navbar-toggle {
+padding: 9px 10px;
+margin-top: 14px;
+margin-right: 15px;
+margin-bottom: 8px;
+}
+
+.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+	margin-left: -30px;
+}
+
+/* ####################### Controls and stage info #######################*/
+.hidden {
+	display:none;
+}
+
+div.grey {
+	background-color: #f5f5f5;
+}
+
+#resultcontrols {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	color: #FFFFFF;
+	background-color: #1C88C5;
+}
+
+#resultcontrols div {
+	margin-bottom: 7px;
+}
+
+#resultcontrols button {
+	border: 1px solid #FFFFFF;
+	background: transparent;
+	margin: 3px;
+}
+
+#resultcontrols button.active, #resultcontrols button:hover {
+	border: 1px solid #FFFFFF;
+	background-color: #FFFFFF;
+	color: #1C88C5;
+}
+
+#resultcontrols span.service {
+	border: 1px solid #FFFFFF;
+	background: transparent;
+	margin: 3px;
+	padding: 2px 6px;
+	font-size: 13px;
+}
+
+#stageinformation {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	color: #555;
+	background-color: #f5f5f5;
+}
+
+#stageinformation span {
+	font-weight: bold;
+}
+
+#stageinformation h2, #resultcontrols h2 {
+	margin-top: 0;
+	font-size: 18px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+#stageinformation h2 {
+	color: #1C88C5;
+}
+
+
+/* ####################### Main Content #######################*/
+
+div.penalties, div.entries, div.itinerary, div.retired, div.gps {
+	display: none;
+}
+
+/* ####################### Result tables #######################*/
+
+table.results {
+	font-size: 11px;
+}
+
+table.results td {
+	padding: 4px;
+}
+
+td.center, th.center {
+	text-align: center;
+}
+
+.small-text {
+	font-size: 12px;
+	color:#1C88C5;
+	font-style: italic;
+}
+
+.table-striped > thead > tr {
+    background-color: #EAEEF2;
+}
+
+
+/* ####################### Itinerary #######################*/
+
+span.started {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
+	background-color: #2CA250;
+}
+
+span.notstarted {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
+	background-color: #E8292B;
+}
+
+/* ####################### Flash news #######################*/
+
+p.list-group-item-heading {
+	font-size: 16px;
+}
+/* ####################### Sponsors #######################*/
+
+.sponsors {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.sponsors a {
+	display: table-cell;
+	height: 150px;
+	vertical-align: middle;
+	width: 100%;
+}
+
+.sponsors img {
+	width: 100%;
+	max-height: 100%;
+}
+
+/* ####################### Footer #######################*/
+
+.footer {
+	background-color: #F9F9F9; 
+	margin-top: 20px;
+	font-size: 12px;
+	padding: 20px 0 ;
+}
+
+.footer p {
+	margin: 0;
+}
+
+/* ####################### Misc #######################*/
+
+.ui-loader {
+	display: none;
+}
+
+.bs-callout {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #eee;
+    border-image: none;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px 1px 1px 5px;
+    margin: 20px 0;
+    padding: 20px;
+}
+
+.bs-callout-danger {
+    border-left-color: #ce4844;
+}
