@@ -1,4 +1,4 @@
-//Live results 
+/*Live results */
 var path = 'http://code.boxfishbg.info/liveparser/files/'; //basepath for result files
 var assetspath = 'http://code.boxfishbg.info/assets/'; //basepath for assets
 var stage = 1;  //initial current stage value
@@ -10,12 +10,12 @@ var i = 0;
 var s = 0;
 var utc=-120;
 var loadcount=0;
-var eventdata = new Array(); // Event data
-var evententries = new Array(); // Event entries
-var itinerary = new Array(); // Itinerary
-var itinerarystages = new Array(); // Itinerary
-var championships = new Array(); // Available championships in the event
-var classes = new Array(); // Available classes in the event
+var eventdata = []; // Event data
+var evententries = []; // Event entries
+var itinerary = []; // Itinerary
+var itinerarystages = []; // Itinerary
+var championships = []; // Available championships in the event
+var classes = []; // Available classes in the event
 //var champnames = {all:"всички", rally:"рали", rallysprint:"рали-спринт", erc:"ERC", rally2wd:"рали 2WD"};
 var champnames = {all:"всички", rally:"рали", rallysprint:"купа Варна", erc:"ERC", rally2wd:"рали 2WD"};
 
