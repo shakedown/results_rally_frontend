@@ -16,8 +16,8 @@ var itinerary = []; // Itinerary
 var itinerarystages = []; // Itinerary
 var championships = []; // Available championships in the event
 var classes = []; // Available classes in the event
-//var champnames = {all:"всички", rally:"рали", rallysprint:"рали-спринт", erc:"ERC", rally2wd:"рали 2WD"};
-var champnames = {all:"всички", rally:"рали", rallysprint:"купа Варна", erc:"ERC", rally2wd:"рали 2WD"};
+var champnames = {all:"всички", rally:"рали", rallysprint:"рали-спринт", erc:"ERC", rally2wd:"рали 2WD"};
+//var champnames = {all:"всички", rally:"рали", rallysprint:"купа Варна", erc:"ERC", rally2wd:"рали 2WD"};
 
 $(document).ready(function(){
 	initialLoad();
@@ -51,10 +51,9 @@ function loadEvent()
 			var startmonth= json.event.start.substr(5, 2);
 			var endday = json.event.end.substr(8, 2);
 			var endmonth= json.event.end.substr(5, 2);
-			var year = json.event.start.substr(0, 4)
+			var year = json.event.start.substr(0, 4);
 			if (json.event.start==json.event.end) {var dates = startday + '/' + startmonth + ' ' + year;}
 			else { dates = startday + '/' + startmonth + ' - ' + endday + '/' + endmonth + ' ' + year;}
-			var year = json.event.start.substr(0, 4)
 			var eventinfo='<h1>' + json.event.name + '</h1><div class="event-dates"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> ' + dates + '</div>';			  
 			$('#event-info').html(eventinfo);
 			eventdata = json.event;
@@ -102,8 +101,8 @@ function loadEvent()
 			//event championships
 			championships = json.event.champlist.champs;
 			var champs='<span>Шампионат: </span>';
-			var active = '';
-			for(var i=0; i < championships.length; i++) {
+			active = '';
+			for(i=0; i < championships.length; i++) {
 				if (championships[i].champ=='all') {active = ' active';}
 				champs = champs + '<button type="button" class="single_champ champselector' + active + '" id="champ_'+ championships[i].champ +'">' + champnames[championships[i].champ] + '</button>';
 				active = '';
@@ -124,7 +123,7 @@ function loadEvent()
 			//event classes
 			classlist = json.event.classlist.classes;
 			var classes='<span>Клас: </span>';
-			for(var i=0; i < classlist.length; i++) {
+			for(i=0; i < classlist.length; i++) {
 					if (classlist[i].eventclass=='all') {
 					classes = classes + '<button type="button" class="single_class classselector active" id="class_'+ classlist[i].eventclass +'">Всички</button>';
 					}
@@ -177,8 +176,64 @@ function loadEvent()
 	});				
 }
 
-//Load stage times
+//Load stage times using single file
 function getresults(stage, champ, group)
+{
+    var stagenumber=stage;
+    if (stage < 10) {
+        stage = '0' + stage;
+    }
+
+    var resultsurl = path + eventdata.id + '/results_all.json?callback=?';
+
+    $.jsonp({
+        url: resultsurl,
+        callback: "callback",
+        success: function(json) {
+            allresults=json;
+
+            var stageresults='<h3>Резултати от СЕ'+stage+'</h3><div class="table-responsive"><table class="table table-striped results"><thead><tr><th class="center">Поз.</th><th class="center">№</th><th>Пилот<br />Навигатор</th><th>Автомобил<br />Клас</th><th class="center">Време СЕ<br />[ср. скор.]</th><th class="center">първи<br />пред.</th></tr></thead><tbody>';
+
+            if ($.isEmptyObject(json)) {
+                stageresults='<h3>Резултати от СЕ'+stage+'</h3><div>Все още няма данни за етапа.</div>';
+                $('#stageresults').html(stageresults);
+                console.log('results loaded from url:' + resultsurl);
+            }
+
+            else if (json.result.length) {
+                $.each(json.result, function(key, val){
+                    if (val.stage == stagenumber) {
+                        stageresults = stageresults + '<tr><td class="center">' + val.position + '</td><td class="center">' + val.number + '<br /><img src="images/' + val.drivernat + '.gif" alt="flag" /></td><td class="crew">' + val.driver + '<br />' + val.codriver + '</td><td>' + val.car + '<br />' + val.class + '</td><td class="center">' + val.stagetime + '<br />[' + val.speed + ']</td><td class="center">' + val.difffirst + '<br />' + val.diffprev + '</td></tr>';
+                    }
+                })
+            }
+
+            stageresults = stageresults + '</tbody></table></div>';
+
+            $('#stageresults').html(stageresults);
+            result=json;
+            $('#result_error').html('');
+            console.log('results loaded from url:' + resultsurl);
+
+
+        },
+
+        error: function() {
+            if(loadcount==0) {
+                $('#stageresults').html('<h3>Резултати от СЕ'+stage+'</h3><div class="bs-callout bs-callout-danger">Възникна грешка при зареждане на резултатите. Моля опитайте да презаредите страницата.</div>');
+            }
+
+            if(loadcount>0) {
+                $('#result_error').html('<div class="bs-callout bs-callout-danger"><p>Възникна грешка при обновяване на резултатите. След 60 секунди ще бъде направен повторен опит за зареждане на данните.</p></div>');
+            }
+
+            console.log('error loading results from url:' + urlstage);
+        }
+    });
+}
+
+//Load Stage times using old files
+function getresults2(stage, champ, group)
 {
 	var stagenumber=stage;
 	if (stage < 10) {
