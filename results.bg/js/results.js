@@ -17,7 +17,7 @@ var itinerarystages = new Array(); // Itinerary
 var championships = new Array(); // Available championships in the event
 var classes = new Array(); // Available classes in the event
 //var champnames = {all:"всички", rally:"рали", rallysprint:"рали-спринт", erc:"ERC", rally2wd:"рали 2WD"};
-var champnames = {all:"всички", rally:"рали", rallysprint:"купа Варна", erc:"ERC", rally2wd:"рали 2WD"};
+var champnames = {all:"всички", rally:"рали", rallysprint:"рали-спринт", erc:"ERC", rally2wd:"рали 2WD"};
 
 $(document).ready(function(){
 	initialLoad();
