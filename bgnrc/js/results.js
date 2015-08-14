@@ -192,7 +192,13 @@ function getresults(stage, champ, group)
 	$.jsonp({
 		url: urlstage,
 		callback: "callback",
-		success: function(json) {
+        beforeSend: function() {
+            $("#loader").toggle();
+        },
+        complete: function() {
+            setTimeout(function(){ $("#loader").toggle(); }, 1500);
+        },
+        success: function(json) {
 		   var stageresults='<h3>Резултати от СЕ'+stage+'</h3><div class="table-responsive"><table class="table table-striped results"><thead><tr><th class="center">Поз.</th><th class="center">№</th><th>Пилот<br />Навигатор</th><th>Автомобил<br />Клас</th><th class="center">Време СЕ<br />[ср. скор.]</th><th class="center">първи<br />пред.</th></tr></thead><tbody>';
 			
 			if ($.isEmptyObject(json)) {

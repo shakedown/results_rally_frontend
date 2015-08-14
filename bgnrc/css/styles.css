@@ -200,6 +200,10 @@ div.penalties, div.entries, div.itinerary, div.retired, div.gps {
 	display: none;
 }
 
+#result_left .row {
+    min-height: 100px;
+}
+
 /* ####################### Result tables #######################*/
 
 table.results {
@@ -302,4 +306,83 @@ p.list-group-item-heading {
 
 .bs-callout-danger {
     border-left-color: #ce4844;
+}
+
+/* ####################### Loader #######################*/
+
+#loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.75);
+    z-index: 10;
+    display: none;
+}
+
+.loading {
+    width: 250px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-family: helvetica, arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #1C88C5;
+    letter-spacing: 0.2em;
+}
+.loading::before, .loading::after {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: #1C88C5;
+    position: absolute;
+    -webkit-animation: load .7s infinite alternate ease-in-out;
+    animation: load .7s infinite alternate ease-in-out;
+}
+.loading::before {
+    top: 0;
+}
+.loading::after {
+    bottom: 0;
+}
+
+@-webkit-keyframes load {
+    0% {
+        left: 0;
+        height: 30px;
+        width: 15px;
+    }
+    50% {
+        height: 8px;
+        width: 40px;
+    }
+    100% {
+        left: 235px;
+        height: 30px;
+        width: 15px;
+    }
+}
+
+@keyframes load {
+    0% {
+        left: 0;
+        height: 30px;
+        width: 15px;
+    }
+    50% {
+        height: 8px;
+        width: 40px;
+    }
+    100% {
+        left: 235px;
+        height: 30px;
+        width: 15px;
+    }
 }
