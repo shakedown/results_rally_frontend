@@ -1,5 +1,6 @@
 //Live results 
 var path = 'http://code.boxfishbg.info/liveparser/files/'; //basepath for result files
+var archivedpath = 'http://code.boxfishbg.info/liveparser/files/'; //basepath for archived event data
 var assetspath = 'http://code.boxfishbg.info/assets/'; //basepath for assets
 var stage = 1;  //initial current stage value
 var champ = 'all'; //initial championship
@@ -39,10 +40,11 @@ $(document).ready(function(){
 });
 
 //Load the event
-function loadEvent()
+function loadEvent(location=path)
 {	
-	var url = path + 'event.json?callback=?';
-
+	//var url = path + 'event.json?callback=?';
+    var url = location  + 'event.json?callback=?';
+    console.log(url);
 	$.jsonp({
 		url: url,
 		callback: "callback",
@@ -99,7 +101,13 @@ function loadEvent()
 			 console.log('tap:'+this.id);
 			 filterResutls(this.id, champ, group)
 			});*/
-			
+
+            //championship names
+            champnames.rally=json.event.rally_name;
+            champnames.rally2wd=json.event.name_2wd;
+            champnames.rallysprint=json.event.rally_sprint_name;
+            champnames.erc=json.event.erc_name;
+
 			//event championships
 			championships = json.event.champlist.champs;
 			var champs='<span>Шампионат: </span>';
@@ -168,6 +176,8 @@ function loadEvent()
 			
 			//load Flashnews
 			loadFlashnews();
+
+            $('#error').html('');
 			
 		},
 		error: function() {
@@ -240,6 +250,7 @@ function getresults(stage, champ, group)
 	
 	//Get after stage results
 	var urlstageafter = path + eventdata.id + '/stage_after_' + stage + '_' + champ + '_' + group + '.json?callback=?';
+    var posprev = 'none';
 	
 	$.jsonp({
 		url: urlstageafter,
@@ -256,12 +267,38 @@ function getresults(stage, champ, group)
 			  else {
 				  if (json.result.length) {
 					$.each(json.result, function(key, val){
-						stageresults = stageresults + '<tr><td class="center">' + val.position + '</td><td class="center">' + val.number + '<br /><img src="images/' + val.drivernat + '.gif" alt="flag" /></td><td class="crew">' + val.driver + '<br />' + val.codriver + '</td><td>' + val.car + '<br />' + val.class + '</td><td class="center">' + val.stagetime + '<br />[' + val.penalties + ']</td><td class="center">' + val.totaltime + '</td><td class="center">' + val.difffirst + '<br />' + val.diffprev + '</td></tr>';
+                        if (val.positionchange) {
+                            if (val.positionchange==0){
+                                posprev = 'equal';
+                            }
+                            else if (val.positionchange>0) {
+                                posprev = 'glyphicon-triangle-top';
+                            }
+
+                            else if (val.positionchange<0) {
+                                posprev = 'glyphicon-triangle-bottom';
+                            }
+                        }
+                        else {posprev = 'none';}
+						stageresults = stageresults + '<tr><td class="center">' + val.position + '<br /><span class="positionchange glyphicon ' + posprev + '"></span></td><td class="center">' + val.number + '<br /><img src="images/' + val.drivernat + '.gif" alt="flag" /></td><td class="crew">' + val.driver + '<br />' + val.codriver + '</td><td>' + val.car + '<br />' + val.class + '</td><td class="center">' + val.stagetime + '<br />[' + val.penalties + ']</td><td class="center">' + val.totaltime + '</td><td class="center">' + val.difffirst + '<br />' + val.diffprev + '</td></tr>';
 					})
 				  }
 				  
 				  else {
-					stageresults = stageresults + '<tr><td class="center">' + json.result.position + '</td><td class="center">' + json.result.number + '<br /><img src="images/' + json.result.drivernat + '.gif" alt="flag" /></td><td class="crew">' + json.result.driver + '<br />' + json.result.codriver + '</td><td>' + json.result.car + '<br />' + json.result.class + '</td><td class="center">' + json.result.stagetime + '<br />[' + json.result.penalties + ']</td><td class="center">' + json.result.totaltime + '</td><td></td></tr>';
+                      if (json.result.positionchange) {
+                          if (val.positionchange==0){
+                              posprev = 'equal';
+                          }
+                          else if (json.result.positionchange>0) {
+                              posprev = 'up';
+                          }
+
+                          else if (json.result.positionchange<0) {
+                              posprev = 'down';
+                          }
+                      }
+                      else {posprev = 'none';}
+					stageresults = stageresults + '<tr><td class="center">' + json.result.position + '<br /><span class=positionchange glyphicon "' + posprev + '"></span></td><td class="center">' + json.result.number + '<br /><img src="images/' + json.result.drivernat + '.gif" alt="flag" /></td><td class="crew">' + json.result.driver + '<br />' + json.result.codriver + '</td><td>' + json.result.car + '<br />' + json.result.class + '</td><td class="center">' + json.result.stagetime + '<br />[' + json.result.penalties + ']</td><td class="center">' + json.result.totaltime + '</td><td></td></tr>';
 				  }
 				  stageresults = stageresults + '</tbody></table></div>';
 				  $('#stageafter').html(stageresults);
@@ -363,6 +400,7 @@ function initialLoad()
 			console.log('Time successfully loaded from server');
 			currentStage();
 			loadEvent();
+            loadEvents()
 			timeDisplay();
 		},
 		error: function() {
@@ -370,6 +408,7 @@ function initialLoad()
 			console.log('Error loading time from server. Switched to backup');
 			currentStage();
 			loadEvent();
+            loadEvents()
 			timeDisplay();
 			
 		}
@@ -652,4 +691,67 @@ function convertDateToUTC(date) {
 Date.prototype.addHours = function(h) {    
    this.setTime(this.getTime() + (h*60*60*1000)); 
    return this;   
+}
+
+//Load list of archved events
+function loadEvents() {
+
+    var url = path + 'events.json?callback=?';
+    var logo='';
+    var table='';
+    var events='';
+    var start=''
+    var end='';
+
+    $.jsonp({
+        url: url,
+        callback: "callback",
+        success: function(json) {
+            events='<table class="table table-striped table-responsive"><thead><tr><th>Състезание</th><th>Начало</th><th>Край</th></tr></thead><tbody>';
+
+            if ($.isEmptyObject(json)) {
+                events=events+'<tr><td colspan="3">Няма въведени данни</td></tr></tbody></table>';
+                $('#archive').html(events);
+                console.log('Events list loaded from url:' + url);
+            }
+
+            else {
+
+                $.each(json.events, function(key, val){
+                    logo = '<img class="logo_list" alt="logo" src="' + assetspath + 'uploads/events/' + val.logo + '" />';
+                    start = val.start.substr(8, 2) + '.' + val.start.substr(5, 2) + '.' + val.start.substr(0, 4);
+                    end= val.end.substr(8, 2) + '.' + val.end.substr(5, 2) + '.' + val.end.substr(0, 4);
+                    table = '<tr class="archive_row"><td><a class="archiveselector" id="event' + val.id + '">' + logo  + val.name + '</a></td><td>' + start + '</td><td>' + end + '</td></tr>' + table;
+                })
+                events = events + table + '</tbody></table>';
+                $('#archive').html(events);
+                events=json;
+                console.log('Events list loaded from url:' + url);
+            }
+
+            //onclick functions
+            $('.archiveselector').on('click', function(){
+                var selectedevent=this.id;
+                selectedevent=selectedevent.replace("event","");
+                loadArchived(selectedevent);
+            });
+
+
+        },
+        error: function() {
+            $('#archive').html('<div class="error">Възникна грешка при зареждане на архивните резултати. Моля опитайте да презаредите страницата.</div>');
+            console.log('Error loading events');
+        }
+    });
+
+}
+
+//Load archived event
+function loadArchived(id) {
+    newpath = archivedpath + id + '/';
+
+    //trigger loading of the event
+    loadEvent(newpath);
+    //go to results table
+    $('#results_screen').click();
 }

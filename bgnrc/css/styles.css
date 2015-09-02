@@ -196,7 +196,7 @@ div.grey {
 
 /* ####################### Main Content #######################*/
 
-div.penalties, div.entries, div.itinerary, div.retired, div.gps {
+div.penalties, div.entries, div.itinerary, div.retired, div.gps, div.archive {
 	display: none;
 }
 
@@ -245,6 +245,25 @@ span.notstarted {
 	height: 16px;
 	border-radius: 8px;
 	background-color: #E8292B;
+}
+
+/* ####################### Archive #######################*/
+
+img.logo_list {
+    max-width: 80px;
+    margin-right: 15px;
+}
+
+tr.archive_row td {
+    line-height: 38px !important;
+}
+
+a.archiveselector {
+    cursor: pointer;
+}
+
+a.archiveselector:hover {
+    text-decoration: none;
 }
 
 /* ####################### Flash news #######################*/
@@ -385,4 +404,22 @@ p.list-group-item-heading {
         height: 30px;
         width: 15px;
     }
+}
+
+/* ####################### Position change #######################*/
+
+span.equal {
+    color: #1C88C5;
+    font-weight: bold;
+}
+
+span.equal::before {
+    content: "=";
+}
+
+span.positionchange.glyphicon-triangle-top {
+    color: green;
+}
+span.positionchange.glyphicon-triangle-bottom {
+    color: red;
 }
