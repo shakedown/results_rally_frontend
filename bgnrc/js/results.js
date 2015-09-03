@@ -40,10 +40,11 @@ $(document).ready(function(){
 });
 
 //Load the event
-function loadEvent(location=path)
-{	
+function loadEvent(newurl)
+{
+    if(!newurl) {newurl=path;}
 	//var url = path + 'event.json?callback=?';
-    var url = location  + 'event.json?callback=?';
+    var url = newurl  + 'event.json?callback=?';
     console.log(url);
 	$.jsonp({
 		url: url,
