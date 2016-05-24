@@ -237,15 +237,23 @@ function getresults(stage, champ, group)
 			}
 		},
 		error: function() {
-		   if(loadcount==0) {
-			   $('#stageresults').html('<h3>Резултати от СЕ'+stage+'</h3><div class="bs-callout bs-callout-danger">Възникна грешка при зареждане на резултатите. Моля опитайте да презаредите страницата.</div>');
+		   if (itinerarystages[stagenumber].status=="cancelled") {
+			   $('#stageresults').html('<h3>Резултати от СЕ'+stage+'</h3><div class="bs-callout bs-callout-danger">Етапът е отменен</div>');
+			   console.log('Stage is cancelled');
 		   }
 		   
-		   if(loadcount>0) {
-			   $('#result_error').html('<div class="bs-callout bs-callout-danger"><p>Възникна грешка при обновяване на резултатите. След 60 секунди ще бъде направен повторен опит за зареждане на данните.</p></div>');
-		   }
+		   else {
 		   
-		   console.log('error loading results from url:' + urlstage);
+			   if(loadcount==0) {
+				   $('#stageresults').html('<h3>Резултати от СЕ'+stage+'</h3><div class="bs-callout bs-callout-danger">Възникна грешка при зареждане на резултатите. Моля опитайте да презаредите страницата.</div>');
+			   }
+			   
+			   if(loadcount>0) {
+				   $('#result_error').html('<div class="bs-callout bs-callout-danger"><p>Възникна грешка при обновяване на резултатите. След 60 секунди ще бъде направен повторен опит за зареждане на данните.</p></div>');
+			   }
+			   
+			   console.log('error loading results from url:' + urlstage);
+		   }
 		}
 	});	
 	
@@ -287,7 +295,7 @@ function getresults(stage, champ, group)
 				  
 				  else {
                       if (json.result.positionchange) {
-                          if (val.positionchange==0){
+                          if (json.result.positionchange==0){
                               posprev = 'equal';
                           }
                           else if (json.result.positionchange>0) {
@@ -309,14 +317,22 @@ function getresults(stage, champ, group)
 			  }
 		},
 		error: function() {
-			if(loadcount==0) {
-			   $('#stageafter').html('<h3>Резултати след СЕ'+stage+'</h3><div class="bs-callout bs-callout-danger">Възникна грешка при зареждане на резултатите. Моля опитайте да презаредите страницата.</div>');
-		   }
-		   
-		   if(loadcount>0) {
-			   $('#result_error').html('<div class="bs-callout bs-callout-danger"><p>Възникна грешка при обновяване на резултатите. След 60 секунди ще бъде направен повторен опит за зареждане на данните.</p></div>');
-		   }
-		   console.log('error loading results after from url:' + urlstageafter);
+			
+			if (itinerarystages[stagenumber].status=="cancelled") {
+			   $('#stageafter').html('<h3>Резултати от СЕ'+stage+'</h3><div class="bs-callout bs-callout-danger">Етапът е отменен</div>');
+			   console.log('Stage is cancelled');
+			}
+			
+			else {
+				if(loadcount==0) {
+				   $('#stageafter').html('<h3>Резултати след СЕ'+stage+'</h3><div class="bs-callout bs-callout-danger">Възникна грешка при зареждане на резултатите. Моля опитайте да презаредите страницата.</div>');
+				}
+			   
+			   if(loadcount>0) {
+				   $('#result_error').html('<div class="bs-callout bs-callout-danger"><p>Възникна грешка при обновяване на резултатите. След 60 секунди ще бъде направен повторен опит за зареждане на данните.</p></div>');
+				}
+				console.log('error loading results after from url:' + urlstageafter);
+			}
 		}
 	});	
 	
@@ -469,7 +485,10 @@ function renderItinerary()
 	var itineraryhtml='<table class="table table-striped"><thead><tr><th class="center">Статус</th><th class="center">Етап</th><th>Име</th><th class="center">Дължина</th><th class="center">Начало</th></tr></thead><tbody>';
 	for(var i=0; i < itinerary.length; i++) {
 		if (itinerary[i].type=='stage') {	
-			var stageStatus = checkStage(itinerary[i].start);
+			if(itinerary[i].status=="cancelled") {
+				var stageStatus = "cancelled";
+			}
+			else {var stageStatus = checkStage(itinerary[i].start);}
 			itineraryhtml = itineraryhtml + '<tr><td class="center"><span class="' + stageStatus + '"></span></td><td class="center">СЕ' + itinerary[i].number + '</td><td>' + itinerary[i].name + '</td><td class="center">' + itinerary[i].length + ' км.</td><td class="center">' + itinerary[i].start.substr(11, 5) + '</td></tr>';
 
 		}

@@ -244,6 +244,14 @@ span.notstarted {
 	width: 16px;
 	height: 16px;
 	border-radius: 8px;
+	background-color: #FFFF00;
+}
+
+span.cancelled {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
 	background-color: #E8292B;
 }
 
